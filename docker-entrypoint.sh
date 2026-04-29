@@ -8,7 +8,7 @@ DUCKDB_PID=$!
 trap 'kill "$DUCKDB_PID" 2>/dev/null' TERM INT
 
 # Wait for DuckDB UI to be ready
-until (echo > /dev/tcp/127.0.0.1/4213) 2>/dev/null; do
+until (echo > /dev/tcp/localhost/4213) 2>/dev/null; do
     sleep 1
 done
 
