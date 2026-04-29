@@ -12,5 +12,5 @@ until (echo > /dev/tcp/localhost/4213) 2>/dev/null; do
     sleep 1
 done
 
-# Forward 0.0.0.0:4123 → 127.0.0.1:4213 (foreground, keeps container alive)
-exec socat TCP-LISTEN:4123,bind=0.0.0.0,fork,reuseaddr TCP:127.0.0.1:4213
+# Forward 0.0.0.0:4123 → [::1]:4213 (foreground, keeps container alive)
+exec socat TCP-LISTEN:4123,bind=0.0.0.0,fork,reuseaddr TCP6:[::1]:4213
