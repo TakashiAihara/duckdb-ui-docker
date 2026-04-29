@@ -1,4 +1,4 @@
-FROM nginx:bookworm
+FROM debian:bookworm-slim
 
 ARG TARGETARCH
 ARG DUCKDB_VERSION=v1.5.2
@@ -6,8 +6,8 @@ ARG DUCKDB_VERSION=v1.5.2
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         curl \
+        ca-certificates \
         unzip \
-        openssl \
     && rm -rf /var/lib/apt/lists/*
 
 RUN case "$TARGETARCH" in \
@@ -21,15 +21,14 @@ RUN case "$TARGETARCH" in \
     && rm /tmp/duckdb.zip \
     && chmod +x /usr/local/bin/duckdb
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY docker-entrypoint.sh /docker-entrypoint-duckdb.sh
-RUN chmod +x /docker-entrypoint-duckdb.sh
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENV DUCKDB_UI_NO_BROWSER=1
 
-EXPOSE 8080 8443
+EXPOSE 4213
 
 VOLUME ["/data"]
 WORKDIR /data
 
-ENTRYPOINT ["/docker-entrypoint-duckdb.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
