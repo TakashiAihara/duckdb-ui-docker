@@ -1,4 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-exec duckdb -ui "$@"
+# Start DuckDB UI in background (binds to 127.0.0.1:4213)
+duckdb -ui "$@" &
+DUCKDB_PID=$!
+
+trap 'kill "$DUCKDB_PID" 2>/dev/null' TERM INT
+
+# Wait for DuckDB UI to be ready
+until (echo > /dev/tcp/127.0.0.1/4213) 2>/dev/null; do
+    sleep 1
+done
+
+# Forward 0.0.0.0:4123 → 127.0.0.1:4213 (foreground, keeps container alive)
+exec socat TCP-LISTEN:4123,bind=0.0.0.0,fork,reuseaddr TCP:127.0.0.1:4213

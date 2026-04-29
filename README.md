@@ -19,15 +19,15 @@ Docker image for [DuckDB](https://duckdb.org/) with the built-in web UI.
 ### In-memory database
 
 ```bash
-docker run -p 4213:4213 ghcr.io/takashiaihara/duckdb-ui:latest
+docker run -p 4123:4123 ghcr.io/takashiaihara/duckdb-ui:latest
 ```
 
-Open http://localhost:4213 in your browser.
+Open http://localhost:4123 in your browser.
 
 ### Persistent database
 
 ```bash
-docker run -p 4213:4213 -v $(pwd)/data:/data ghcr.io/takashiaihara/duckdb-ui:latest /data/mydb.duckdb
+docker run -p 4123:4123 -v $(pwd)/data:/data ghcr.io/takashiaihara/duckdb-ui:latest /data/mydb.duckdb
 ```
 
 ### Docker Compose
@@ -37,7 +37,7 @@ services:
   duckdb-ui:
     image: ghcr.io/takashiaihara/duckdb-ui:latest
     ports:
-      - "4213:4213"
+      - "4123:4123"
     volumes:
       - ./data:/data
     command: /data/mydb.duckdb

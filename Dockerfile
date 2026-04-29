@@ -8,6 +8,7 @@ RUN apt-get update \
         curl \
         ca-certificates \
         unzip \
+        socat \
     && rm -rf /var/lib/apt/lists/*
 
 RUN case "$TARGETARCH" in \
@@ -26,7 +27,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENV DUCKDB_UI_NO_BROWSER=1
 
-EXPOSE 4213
+EXPOSE 4123
 
 VOLUME ["/data"]
 WORKDIR /data
