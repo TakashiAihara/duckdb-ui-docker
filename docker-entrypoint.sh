@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Start DuckDB UI in background (binds to 127.0.0.1:4213)
-duckdb -ui "$@" &
+# tail -f /dev/null keeps stdin open so duckdb does not exit on EOF
+tail -f /dev/null | duckdb -ui "$@" &
 DUCKDB_PID=$!
 
 trap 'kill "$DUCKDB_PID" 2>/dev/null' TERM INT
