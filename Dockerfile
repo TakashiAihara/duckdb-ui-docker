@@ -27,6 +27,9 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENV DUCKDB_UI_NO_BROWSER=1
 
+HEALTHCHECK --interval=5s --timeout=5s --start-period=30s --retries=10 \
+    CMD curl -sf http://localhost:4123/ || exit 1
+
 EXPOSE 4123
 
 VOLUME ["/data"]

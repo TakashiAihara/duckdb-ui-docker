@@ -1,0 +1,7 @@
+services:
+  duckdb-ui:
+    image: ${DUCKDB_UI_IMAGE:-ghcr.io/takashiaihara/duckdb-ui:latest}
+    ports:
+      - "4123:4123"
+    volumes:
+      - ./data:/data
